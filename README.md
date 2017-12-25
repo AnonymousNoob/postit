@@ -17,6 +17,11 @@ export DJANGO_SETTINGS_MODULE=postit.local_settings
 set DJANGO_SETTINGS_MODULE=postit.local_settings
 ```
 
+```
+python manage.py makemigrations notes
+python manage.py migrate
+```
+
 
 ## Features
 - Versioning of changes made to individual notes.
