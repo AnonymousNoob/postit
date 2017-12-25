@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+<head>
+{% load staticfiles %}
+
+	<title>PostIt</title>
+	<link href="https://fonts.googleapis.com/css?family=Open+Sans:300" rel="stylesheet">
+	<link rel="stylesheet" type="text/css" href="{% static 'css/layout.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'css/noteStyle.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'css/scrollbar.css' %}">
+	<style type="text/css">
+/*		ul {
+			list-style: none;
+			margin: 0px;
+		}*/
+		.coloumn {
+			float: left;
+			width: 50%;
+			height: 400px;
+			margin-left: 0px;
+			margin-right: auto;
+		}
+		.autosave_alert{
+		    background-color: #2e3a68;
+		    margin-top: 35%;
+		    right: 10px;
+		    color: white;
+		   position: absolute;
+		   -webkit-transition: width 3s;
+			transition: width 3s;
+		}
+
+		.autosave_alert p{
+			padding:0px 12px 0px 12px;
+		}
+	</style>
+</head>
+<body>
+{% csrf_token %}
+	<div id="wrapper">
+		<button class="new-note" onclick="addNote()"><i class="fa fa-plus-circle"></i> New Note</button>
+		<!-- Notes -->
+		<div id="notesCollection">
+			{% for note in notes %}
+			<div id="thread" class="ui-widget-content note" >
+				<input type="hidden" name="noteId" value="{{note.id}}" id="noteId" />
+						<!-- Title -->
+		                <div class="title">&nbsp;<input type="text" id="title" value="{{note.title}}">
+		                    <div class="title_right">
+		                        <ul class="title_row_ul">
+		                			<li class="expand"><i class="fa fa-expand"></i></li>
+		                            <li class="versions"><i class="fa fa-clock-o"></i></li>
+		                            <li onclick="deleteNote({{note.id}})" class="close">&times;</li>
+		                        </ul>
+		                    </div>
+		                </div>
+		                <!-- TitleEnd -->
+		                <!-- Contents -->
+		                <div class="row">
+		                    <textarea rows="10" cols="100"  class="contents" placeholder="your notes here" id="content" >{{note.content}}</textarea>
+		                    <!-- Version -->
+		                    <div class="version_history coloumn">
+			                    <ul>
+			                    	<li><b>Version History</b></li>
+			                    	<hr>
+								{% for versions in note.history %}
+			                    	<li class="created">
+			                    		{{versions.created}}
+			                    		<input id="version_id" type="hidden" value = "{{versions.id}}" />
+			                    	</li>
+								{% endfor %}
+			                    </ul>
+		                	</div>
+		                	<!-- VersionEnd -->
+		                </div>
+		                <!-- ContentsEnd -->
+		    </div>
+			{% endfor %}
+		</div>
+		<!-- NotesEnd -->
+	</div>
+
+	<!-- Alert Messages -->
+	<div class="messages">
+
+	</div>
+	<!-- Alert Messages End -->
+
+<!-- Scripts -->
+<script src="https://code.jquery.com/jquery-latest.min.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script src="https://use.fontawesome.com/3132a9272a.js"></script>
+<script src="{% static 'js/transitions.js' %}"></script>
+<script src="{% static 'js/app.js' %}"></script>
+<script src="{% static 'js/saveChanges.js' %}"></script>
+<script src="{% static 'js/fetchVersion.js' %}"></script>
+<script>
+
+</script>
+</body>
+</html>
